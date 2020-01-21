@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import csvParser from 'csv-parser'
 import CSVReader from 'react-csv-reader'
 
 class FileDownload extends Component {
@@ -8,75 +7,38 @@ class FileDownload extends Component {
         this.state = {
             variableNames: [],
             data : [],
-            checkboxSelected: [],
-            carMakeAge: {}
+            checkboxSelected: []
         }
     }
 
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        // console.log(event.target.value);
-
-        // get the first file in the node's file list as a File object
-        const csvFile = document.getElementById('fileItem').files[0];
-        console.log(csvFile);
-
-        // var csv = require('csv-parser');
-        // var fs = require('fs');
-        // const results = [];
-
-        // fs.createReadStream(csvFile)
-        //     .pipe(csv())
-        //     .on('data', (data) => results.push(data))
-        //     .on('end', () => {
-        //         console.log(results);
-        //         // [
-        //         //   { NAME: 'Daffy Duck', AGE: '24' },
-        //         //   { NAME: 'Bugs Bunny', AGE: '22' }
-        //         // ]
-        //     });
-    }
-
     handleFileLoad = (data) => {
-        // console.log(data)
-        
         // remove the first item in the array and assign it to variableNames
         // now "data" is just an array of the people
         const variableNames = data.shift();
 
-        
         this.setState({
             variableNames: variableNames
         })
 
+        // INDICES
         // find the index of the item "company"
         const companyIndex = variableNames.indexOf('Company Name');
-        console.log(companyIndex);
         // find indec of country
         const countryIndex = variableNames.indexOf('Country');
         // find the index of gender
         const genderIndex = variableNames.indexOf('Gender');
-        console.log(genderIndex);
         // find the index of car make
         const carMakeIndex = variableNames.indexOf('Car Make');
-        console.log(carMakeIndex);
         // find the index of car color
         const carColorIndex = variableNames.indexOf('Car Color');
-        console.log(carColorIndex);
         // find the index of age
         const ageIndex = variableNames.indexOf('Age');
-        console.log(ageIndex);
-        // find the index of company domain
-        // going to need regx
+        // find the index of company domain (going to need regx)
         const companyNameIndex = variableNames.indexOf('Company Name');
-        console.log(companyNameIndex);
         // find the index of ip address
         const ipAddressIndex = variableNames.indexOf('ip_address');
-        console.log(ipAddressIndex);
         // find the index of address
         const addressIndex = variableNames.indexOf('Street address');
-        console.log(addressIndex);
 
         // COMPARING DATA
         // num of companies per country
@@ -86,12 +48,12 @@ class FileDownload extends Component {
         // --> each line is a color, x-axis=car make, y-axis=num of cars 
         // gender vs car 
         // --> 2 lines, x-axis=car make, y-axis=num of people
-        // age vs car (avg up ages for each car)
+        // age vs car (avg ages for each car)
         // --> need to get the toal num of each gender for each car make
         // --> x-axis=car make, y-axis=avg age
         // --> need to get the ages for each car make and then get the avg
 
-        // get all the company names add to allDaya object
+        // Collecting and manipulating data to add to the allDaya object (will be set in state and sent to App.js)
         let companyNames = [];
         let countryNames = [];
         let carMakeNames = [];
@@ -99,6 +61,7 @@ class FileDownload extends Component {
         let age = [];
         const allData = {};
         const carMakeAge = {}
+        // what the object will look like after adding key/values
         // carMakeAge = {
         //     carMake: {
         //         numOfCars: 0,
@@ -109,14 +72,12 @@ class FileDownload extends Component {
         //         numMale: 0
         // }
         const countryVsCompany = {}
+         // what the object will look like after adding key/values
         // countryVsCompany = {
         //       country: {
         //          numOfCompanies: 0
         //      }
         // }
-
-        
-
 
         data.forEach((person) => {
             companyNames.push(person[companyIndex]);
@@ -131,31 +92,20 @@ class FileDownload extends Component {
             } 
 
             const personsCountry = person[countryIndex]
-            console.log(personsCountry);
-
-            // CAR MAKE VS GENDER
-            // if () {
-
-            // }
-             
             // COMPANY VS COUNTRY
             if (!countryVsCompany[`${personsCountry}`] && personsCountry !== undefined) {
-                console.log(`This company wasnt in the array`);
                 countryVsCompany[`${personsCountry}`] = {
                     numOfCompanies: 1
                 }
             } else if (countryVsCompany[`${personsCountry}`] && personsCountry !== undefined) {
-                console.log(`This company was in the array`);
                 countryVsCompany[`${personsCountry}`].numOfCompanies++
             }
 
             // MAKE OF CAR VS AGE
             // for each person grab their age and the car make they have
             let personsCar = person[carMakeIndex]
-            console.log(personsCar);
             
             if (!carMakeAge[`${personsCar}`] && personsCar !== undefined) {
-                // console.log("Does not exist");
                 carMakeAge[`${personsCar}`] = {
                     numOfCars: 1,
                     age: [parseInt(person[ageIndex])],
@@ -164,15 +114,11 @@ class FileDownload extends Component {
                 }
 
             } else if (carMakeAge[`${personsCar}`] && personsCar !== undefined){
-                // console.log("Does exist");
                 carMakeAge[`${personsCar}`].numOfCars++
                 carMakeAge[`${personsCar}`].age.push(parseInt(person[ageIndex]))
                 carMakeAge[`${personsCar}`].gender.push(person[genderIndex])
             }
-        });
-
-        console.log(countryVsCompany);
-        
+        });        
 
         // get the average age for each car make
         for (const car in carMakeAge) {
@@ -207,8 +153,6 @@ class FileDownload extends Component {
                 }
             })
         }
-
-
         
         // SAVE ALL THE DATA INTO THE OBJECT ALLDATA
         allData.companyNames = companyNames;
@@ -217,26 +161,11 @@ class FileDownload extends Component {
         allData.carColors = carColors;
         allData.carMakeAge = carMakeAge;
         allData.countryVsCompany = countryVsCompany;
-        // console.log(allData);
-        
 
         // get all the data associated with the file and save it in state
         this.setState({
             data: allData
         })
-        
-        
-
-        // const peopleInEachCompany = {};
-        // // get the number of companies in each country
-        // companyNames.forEach((company) => {
-        //     // go through all the people and 
-
-        //     // get the index of the current company
-        //     const currentCompanyIndex = companyNames.indexOf(company);
-        //     // console.log(currentCompanyIndex);
-
-        // })
         
         // send the data up to app.js (will be sent down to the graph component)
         this.props.uploadFile(allData)  
@@ -244,11 +173,9 @@ class FileDownload extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(event);
         
         // grab all of the checkboxes (convert from HTMLCollection to an array using spread operator)
         let checkBoxes = [...document.getElementsByClassName('checkbox')];
-        console.log(checkBoxes);
         // filter out the checkboxes that were checked
         const checkboxValues = []
         checkBoxes.forEach((checkbox) => {
@@ -256,99 +183,50 @@ class FileDownload extends Component {
                 checkboxValues.push(checkbox.value);
             } 
         })
-        console.log(checkboxValues);
         
-
         // check to make sure only 2 checkboxes are selcted:
         // if user picked more than 2 variables
         if (checkboxValues.length > 1) {
-            console.log('I was longer than 1');
             alert('You can only pick 1 comparison as a time. Please pick again!')
             // reset all the checkboxes
-            // document.getElementsByClassName('checkbox').checked = false;
             checkBoxes.forEach((checkbox) => {
                 checkbox.checked = false;
             })
         } else if (checkboxValues.length === 0) {
             alert('You need to pick 1 comparison')
             // reset all the checkboxes
-            // document.getElementsByClassName('checkbox').checked = false;
             checkBoxes.forEach((checkbox) => {
                 checkbox.checked = false;
             })
         } else {
-            // set the chosen graph in state
-            // this.setState({
-            //     checkboxSelected: checkboxValues
-            // })
             // reset all the checkboxes
-            // document.getElementsByClassName('checkbox').checked = false;
             checkBoxes.forEach((checkbox) => {
                 checkbox.checked = false;
             })
 
             // check which box the user selected
             if (checkboxValues[0] === 'box1') {
-                console.log('I picked box1');
                 // need to grab the car make and age data
                 this.props.selectedGraph('box1')
                 // send the data up to app.js (will be sent down to the graph component)
-                // this.props.uploadFile(allData)
             } else if (checkboxValues[0] === 'box2') {
-                console.log('I picked box2')
                 // need to grab the car make and gender data
                 this.props.selectedGraph('box2')
             } else if (checkboxValues[0] === 'box3') {
                 // need to grab the companies and countries data
                 this.props.selectedGraph('box3')
-                console.log('I picked box3')
             }
-        }
-
-        // // if user picked only 1 variable
-        // } else if (checkboxValues.length < 2) {
-        //     alert('You need to pick 2 variables. Please pick again!')
-        //     // reset all the checkboxes
-        //     // document.getElementsByClassName('checkbox').checked = false;
-        //     checkBoxes.forEach((checkbox) => {
-        //         checkbox.checked = false;
-        //     })
-        // // if user picked  2 variables
-        // } else {
-        //     console.log(`I was less than 2`);
-        //     console.log(checkboxValues);
-        //     this.setState({
-        //         checkboxesSelected: checkboxValues
-        //     })
-        //     // reset all the checkboxes
-        //     // document.getElementsByClassName('checkbox').checked = false;
-        //     checkBoxes.forEach((checkbox) => {
-        //         checkbox.checked = false;
-        //     })
-        // }        
+        }        
     }
 
     render() {
         return(
-            // <form 
-            // onSubmit={this.handleSubmit}>
-            //     <label 
-            //     htmlFor="fileItem"
-            //     className="visuallyHidden"
-            //     >Upload CSV File</label>
-            //     <input 
-            //     type="file" 
-            //     id="fileItem" 
-            //     accept=".csv"/>
-            //     <button>Upload CSV File</button>
-            // </form>
+            
             <div className="fileContainer">
                 <div className="csvReader">
-                    <h2>Upload csv file</h2>
+                    <h2>Upload CSV File:</h2>
                     <CSVReader onFileLoaded={this.handleFileLoad} />
                 </div>
-                {/* <label htmlFor="checkbox1">{}</label>
-                <input type="checkbox" id="checkbox1"></input> */}
                 <form
                 method="post" 
                 className="variableChoices"
@@ -369,21 +247,6 @@ class FileDownload extends Component {
                         <input type="checkbox" id="checkbox3" value="box3" className="checkbox"></input>
                         <label for="checkbox3">Companies vs. Country</label>
                     </div>
-                {
-                    // this.state.variableNames.map((variable, i) => {
-                    //     return(
-                    //         <div>
-                    //             <label htmlFor={`checkbox${i}`}>{variable}</label>
-                    //             <input 
-                    //             type="checkbox" 
-                    //             id={`checkbox${i}`}
-                    //             className="checkbox"
-                    //             value={variable}
-                    //             ></input>
-                    //         </div>
-                    //     )
-                    // })  
-                }
                 <button type="submit">Submit</button>
                 </form>
             </div>

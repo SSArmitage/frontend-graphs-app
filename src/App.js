@@ -8,23 +8,25 @@ class App extends Component {
     super();
     this.state = {
       data: {},
+      csvFileUploaded: false,
       userPickedGraph: false,
       selectedGraph: ''
     }
   }
 
   hanldeFileData = (data) => {
-    // console.log(data);
     
     this.setState({
       data: data,
-      userPickedGraph: true
+      csvFileUploaded: true
+    
     })
   }
 
   handleGraphData = (graph) => {
     this.setState({
-      selectedGraph: graph
+      selectedGraph: graph,
+      userPickedGraph: true
     })
   }
 
@@ -32,10 +34,11 @@ class App extends Component {
     return (
       <div className="wrapper">
         <header className="App-header">
-          <h1>Display Data From CSV file</h1>
+          <h1>Display Data From CSV File</h1>
         </header>
         <main>
-          <FileDownload 
+          <FileDownload
+          csvSelected={this.state.csvFileUploaded} 
           uploadFile={this.hanldeFileData}
           selectedGraph={this.handleGraphData}/>
           {this.state.userPickedGraph
@@ -48,7 +51,7 @@ class App extends Component {
           }
          
         </main>
-        <footer>Completed by Sarah Armitage</footer>
+        <footer>Completed by Sarah Armitage 2020</footer>
       </div>
     );
   }
