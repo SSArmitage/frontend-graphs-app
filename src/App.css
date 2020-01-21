@@ -47,3 +47,72 @@ html {
 body {
   font-size: 2.0rem;
 }
+
+* {
+    border: 1px solid red;
+}
+
+.wrapper {
+    width: 80%;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+a {
+    display: none;
+}
+
+/* HEADER STYLES */
+header {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* MAIN STYLES */
+main {
+    height: 85vh;
+}
+
+.fileContainer {
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.csvReader {
+    width: 50%;
+}
+
+.csvReader input {
+    width: 100%;
+}
+
+.variableChoices {
+    width: 50%;
+    overflow: scroll;
+    text-align: center;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+}
+
+.variableChoices div {
+    width: max-content;
+    display: flex;
+
+}
+
+.graphContainer {
+    overflow: hidden;
+}
+
+/* FOOTER STYLES */
+footer {
+    height: 5vh;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
