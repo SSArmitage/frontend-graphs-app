@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/frontend-graphs-app/static/css/main.e1ffe4e0.chunk.css",
+    "main.js": "/frontend-graphs-app/static/js/main.049d7d53.chunk.js",
+    "main.js.map": "/frontend-graphs-app/static/js/main.049d7d53.chunk.js.map",
+    "runtime-main.js": "/frontend-graphs-app/static/js/runtime-main.92856ad7.js",
+    "runtime-main.js.map": "/frontend-graphs-app/static/js/runtime-main.92856ad7.js.map",
+    "static/js/2.6caa5d74.chunk.js": "/frontend-graphs-app/static/js/2.6caa5d74.chunk.js",
+    "static/js/2.6caa5d74.chunk.js.map": "/frontend-graphs-app/static/js/2.6caa5d74.chunk.js.map",
+    "index.html": "/frontend-graphs-app/index.html",
+    "precache-manifest.d265e1489542b9e6d14481c8c875eb64.js": "/frontend-graphs-app/precache-manifest.d265e1489542b9e6d14481c8c875eb64.js",
+    "service-worker.js": "/frontend-graphs-app/service-worker.js",
+    "static/css/main.e1ffe4e0.chunk.css.map": "/frontend-graphs-app/static/css/main.e1ffe4e0.chunk.css.map",
+    "static/js/2.6caa5d74.chunk.js.LICENSE": "/frontend-graphs-app/static/js/2.6caa5d74.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.92856ad7.js",
+    "static/js/2.6caa5d74.chunk.js",
+    "static/css/main.e1ffe4e0.chunk.css",
+    "static/js/main.049d7d53.chunk.js"
+  ]
+}
